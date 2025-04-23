@@ -46,17 +46,13 @@ Note that this installation procedure should be identical across most Unix syste
 Within a script, to import the core model implementation it is recommended to run
 
 ```python
-```
 from sim.core import *
-```
 ```
 
 as well as
 
 ```python
-```
 from sim.io import *
-```
 ```
 
 to import some handy input/output helper functions.
