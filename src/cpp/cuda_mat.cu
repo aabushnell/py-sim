@@ -48,25 +48,25 @@ void calc_tau_cublas(int n_nodes, const double *t, double *tau,
 
   cudaStat = cudaMalloc((void **)&devPtrA, n_nodes * n_nodes * sizeof(*t));
   if (cudaStat != cudaSuccess) {
-    printf("device memory allocation failed");
+    printf("device memory allocation for devPrtA failed\n");
   }
   cudaStat = cudaMalloc((void **)&devPtrLeft, n_nodes * n_nodes * sizeof(*t));
   if (cudaStat != cudaSuccess) {
-    printf("device memory allocation failed");
+    printf("device memory allocation for devPrtLeft failed\n");
   }
   cudaStat = cudaMalloc((void **)&devPtrRight, n_nodes * n_nodes * sizeof(*t));
   if (cudaStat != cudaSuccess) {
-    printf("device memory allocation failed");
+    printf("device memory allocation for devPtrRight failed\n");
   }
   cudaStat =
       cudaMalloc((void **)&devPtrLeftTemp, n_nodes * n_nodes * sizeof(*t));
   if (cudaStat != cudaSuccess) {
-    printf("device memory allocation failed");
+    printf("device memory allocation for devPtrLeftTemp failed\n");
   }
   cudaStat =
       cudaMalloc((void **)&devPtrRightTemp, n_nodes * n_nodes * sizeof(*t));
   if (cudaStat != cudaSuccess) {
-    printf("device memory allocation failed");
+    printf("device memory allocation for devPtrRightTemp failed\n");
   }
 
   stat = cublasCreate(&handle);
@@ -78,17 +78,17 @@ void calc_tau_cublas(int n_nodes, const double *t, double *tau,
   stat = cublasSetMatrix(n_nodes, n_nodes, sizeof(*t), t_theta, n_nodes,
                          devPtrA, n_nodes);
   if (stat != CUBLAS_STATUS_SUCCESS) {
-    printf("data download failed");
+    printf("data download to devPtrA failed\n");
   }
   stat = cublasSetMatrix(n_nodes, n_nodes, sizeof(*t), I, n_nodes, devPtrLeft,
                          n_nodes);
   if (stat != CUBLAS_STATUS_SUCCESS) {
-    printf("data download failed");
+    printf("data download to devPtrLeft failed\n");
   }
   stat = cublasSetMatrix(n_nodes, n_nodes, sizeof(*t), t_theta, n_nodes,
                          devPtrRight, n_nodes);
   if (stat != CUBLAS_STATUS_SUCCESS) {
-    printf("data download failed");
+    printf("data download to devPtrRight failed\n");
   }
 
   for (int iter = 0; iter < n_iterations; iter++) {
@@ -96,7 +96,7 @@ void calc_tau_cublas(int n_nodes, const double *t, double *tau,
     stat = cublasGetMatrix(n_nodes, n_nodes, sizeof(*t), devPtrRight, n_nodes,
                            print, n_nodes);
     if (stat != CUBLAS_STATUS_SUCCESS) {
-      printf("data upload failed");
+      printf("data upload from devPtrRight failed\n");
     }
 
     // std::cout << "A_n matrix:" << std::endl;
@@ -122,7 +122,7 @@ void calc_tau_cublas(int n_nodes, const double *t, double *tau,
   stat = cublasGetMatrix(n_nodes, n_nodes, sizeof(*t), devPtrLeft, n_nodes, B,
                          n_nodes);
   if (stat != CUBLAS_STATUS_SUCCESS) {
-    printf("data upload failed");
+    printf("data upload from devPtrLeft failed\n");
   }
 
   for (int j = 0; j < n_nodes; j++) {
