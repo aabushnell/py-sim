@@ -1,7 +1,5 @@
-from numpy import test
 from sim.core import *
 from sim.io import *
-import ctypes as C
 
 # standard array len
 # represents number of nodes in model
@@ -17,9 +15,13 @@ read_matrix('data/t.csv', test_model.t, SIZE)
 
 coeff_theta = 8.0
 
-test_model.init_p_pi(coeff_theta)
+print('calculating tau...')
 
-test_model.calc_tau(coeff_theta, 60, 0)
+test_model.calc_tau(coeff_theta, 60, 1)
+
+print('initializing p/pi...')
+
+test_model.init_p_pi(coeff_theta)
 
 test_model.calc_p_pi(coeff_theta, float(pow(10, -3)), 0)
 
