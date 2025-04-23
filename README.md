@@ -61,6 +61,8 @@ First, create a Model object with `<model_name> = Model(<model_size>)`
 
 where model_size is either an integer variable or literal representing the number of active nodes within the model. It is very important that this number is consistent with the number of nodes represented in the input data or the model will not properly run.
 
+### Data Storage and Access
+
 Upon creation this Model object will allocate the necessary memory to hold its data through the C++ API, these data arrays are exposed to the end Python user through the use of numpy arrays that are members of the respective Model object and can be accessed both for reference and assignment with `<model_name>.<array_name>`. The currently accessible arrays are:
 1. `A` -- the vector of cell knowledge endowments
 2. `L` -- the vector of cell labor (population) endowments
@@ -78,12 +80,19 @@ Note that members 1-6 are of length `<model_size>` and 7-10 are technically of l
 Once initialized, the model member arrays can be accessed, copied, or modified at will the same way any standard numpy array would be. This allows for a high degree of flexibility to integrate this interface into 
 any desired codebase or processing pipeline. However some simple data i/o is provided within the `sim.io` module.
 
+### Data I/O
+
 Data can be loaded from a csv file with the function `read_array(filepath: str, array: np.ndarray, array_len: int, indexed: bool = False)`. Provide the absolute or relative filepath as a string, along with the desired model array to be loaded, the length of the array (which should be the same as the `<mode_size>` the model was initialized with), and an optional boolean stating whether the csv file is indexed or not. By default the function will assume an unindexed csv file with a single floating point number on each line. If the csv is indexed (i.e. in the form `1,5.2` for a single line) then pass `True` to the indexed variable in the function call.
 
 **Example:**
 `read_array('data/A.csv', my_model.A, 1861, True)`
 
+### Calculating Tau matrix
+
 Once the relevant model parameters have been loaded, tau values can be calculated from the input t values through the class method `<model_name>.calc_tau(coeff_theta: float, n_iterations: int, debug_level: int)`. A theta coefficient is required as well as the desired number of iterations of the tau approximation algorithm (for more details see the technical implementation section) and the debug level which should be an integer between 0 and 3 (default 0) representing the desired detail of debug output in the terminal.
+
+
+### Calculating P and Pi vectors
 
 As the calculation of the optimal P and Pi vectors is quite sensitive a thorough initial solution should be found using a powerful non-linear optimization algorithm. This is currently implemented in julia and called from the python interface with the `<model_name>.init_p_pi(coeff_theta: str)` class method. As this may take a significant amount of time to run if multiple simulations of the model with the same starting conditions are expected to be ran it is recommended to save and load the results of this initial P/Pi calculation to speed up future runs of the model.
 
