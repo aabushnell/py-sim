@@ -14,17 +14,16 @@ This documentation will cover, on one end, the high level interface to access th
 
 - git
 - Python 3.11 or greater
-- A C/C++ compiler (gcc is recommended)
+- A python virtual environment manager 
+  - i.e. pyenv w/ pyenv-virtualenv or conda
+- gcc compiler
+- GNU Make
 - For full GPU accelerated features:
   - A CUDA installation including:
     - cublas v2
     - cudart 
   - A CUDA compatible GPU 
   - nvcc compiler
-- GNU Make
-
-Recommended:
-- A python virtual environment manager (i.e. pyenv w/ pyenv-virtualenv)
 
 Note that this installation procedure should be identical across most Unix systems (Linux/MacOS) however in order to properly install and run the package on Windows several changes would need to be made, in particular to the compilation and loading of the C++ shared libraries.
 
@@ -42,13 +41,29 @@ Note that this installation procedure should be identical across most Unix syste
 
 ## Usage
 
+### Initialization
+
 Within a script, to import the core model implementation it is recommended to run
-`from sim.core import *`
+
+```python
+```
+from sim.core import *
+```
+```
+
 as well as
-`from sim.io import *`
+
+```python
+```
+from sim.io import *
+```
+```
+
 to import some handy input/output helper functions.
 
-First, create a Model object with `<model_name> = Model(<model_size>)` where model_size is either an integer variable or literal representing the number of active nodes within the model. It is very important that this number is consistent with the number of nodes represented in the input data or the model will not properly run.
+First, create a Model object with `<model_name> = Model(<model_size>)` 
+
+where model_size is either an integer variable or literal representing the number of active nodes within the model. It is very important that this number is consistent with the number of nodes represented in the input data or the model will not properly run.
 
 Upon creation this Model object will allocate the necessary memory to hold its data through the C++ API, these data arrays are exposed to the end Python user through the use of numpy arrays that are members of the respective Model object and can be accessed both for reference and assignment with `<model_name>.<array_name>`. The currently accessible arrays are:
 1. `A` -- the vector of cell knowledge endowments
