@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <cstdlib>
 #include <iostream>
+#include <limits>
 
 void print_array(int n_nodes, double *arr) {
   for (auto i = 0; i < n_nodes; i++) {
