@@ -71,7 +71,7 @@ The currently accessible arrays are:
 9. `X` -- the matrix (dim 2 array) of ...
 10. `Xi` -- the matrix (dim 2 array) of ...
 
-Note that members 1-6 are of length `<model_size>` and 7-10 are technically of length `<model_size> * <model_size>` but in practical terms should be accessed as nested arrays (i.e. to get the direct travel cost between cells 100 and 101 call `<model_name>.t[100][101]`).
+Note that members 1-6 are of length `<model_size>` and 7-10 are technically of length `<model_size> * <model_size>` but in practical terms should be accessed as nested arrays, i.e. to get the direct travel cost between cells 100 and 101 call `<model_name>.t[100][101]`.
 
 
 ### Data I/O
@@ -82,7 +82,8 @@ any desired codebase or processing pipeline. However some simple data i/o is pro
 from sim.io import *
 ```
 
-- Data can be loaded from a csv file with the function `read_array(filepath: str, array: numpy.ndarray, array_len: int, indexed: bool = False)`. 
+- Data can be loaded from a csv file with the function `read_array(filepath: str, array: numpy.ndarray, array_len: int, indexed: bool = False)`.
+
 The variable `indexed` is an optional boolean stating whether the csv file is indexed or not. By default the function will assume an unindexed csv file with a single floating point number on each line. If the csv is indexed (i.e. in the form `1,5.2` for a single line) then pass `True` to the indexed variable in the function call.
 
 **Example:**
