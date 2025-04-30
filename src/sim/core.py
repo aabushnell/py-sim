@@ -224,7 +224,14 @@ class Model:
             return
         return self.model_ptrs[self.ptr_indices.index(array_name)]
 
-    def calc_tau(self, coeff_theta: float, n_iterations: int, debug_level: int = 0):
+    def calc_tau(
+        self, 
+        coeff_theta: 
+        float, 
+        n_iterations: 
+        int, 
+        debug_level: int = 0
+    ):
         calc_tau_raw(
             C.c_int(self.n_nodes),
             self.get_raw_ptr('t'),
@@ -234,7 +241,10 @@ class Model:
             C.c_int(debug_level)
         )
 
-    def init_p_pi(self, coeff_theta: float):
+    def init_p_pi(
+        self, 
+        coeff_theta: float
+    ):
         julia.calc_p_pi_julia(
             self.n_nodes,
             self.tau,
@@ -245,8 +255,13 @@ class Model:
             coeff_theta
         )
 
-    def calc_p_pi(self, coeff_theta: float, diff_limit: float, debug_level: int, 
-                  relative_diff: bool = False):
+    def calc_p_pi(
+        self, 
+        coeff_theta: float, 
+        diff_limit: float, 
+        debug_level: int, 
+        relative_diff: bool = False
+    ):
         calc_p_pi_raw(
             C.c_int(self.n_nodes), 
             self.get_raw_ptr('tau'), 
@@ -260,7 +275,11 @@ class Model:
             C.c_bool(relative_diff)
         )
 
-    def calc_Y(self, coeff_theta: float, debug_level: int):
+    def calc_Y(
+        self, 
+        coeff_theta: float, 
+        debug_level: int
+    ):
         calc_Y_raw(
             C.c_int(self.n_nodes),
             self.get_raw_ptr('A'),
@@ -271,7 +290,11 @@ class Model:
             C.c_int(debug_level)
         )
 
-    def calc_X(self, coeff_theta: float, debug_level: int):
+    def calc_X(
+        self, 
+        coeff_theta: float, 
+        debug_level: int
+    ):
         calc_X_raw(
             C.c_int(self.n_nodes),
             self.get_raw_ptr('tau'),

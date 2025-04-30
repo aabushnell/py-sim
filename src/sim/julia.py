@@ -1,12 +1,6 @@
-from . import io
-
 import juliacall as jc
-import os
 import numpy as np
 
-jl = jc.newmodule('Main')
-jc.Pkg.activate('SolveInitial') # type: ignore
-jl.seval('using SolveInitial')
 
 # A0 = np.ndarray((1861,))
 # L0 = np.ndarray((1861,))
@@ -27,12 +21,23 @@ jl.seval('using SolveInitial')
 # 
 # print('loading julia runtime...')
 
-def calc_p_pi_julia(n_nodes: int, tau: np.ndarray, A: np.ndarray, 
-                    L: np.ndarray, P: np.ndarray, Pi: np.ndarray, 
-                    coeff_theta: float) -> None:
-    result = jl.main(A, L, tau, coeff_theta, n_nodes)
-    res_Pi = np.asarray(result[0]) 
-    res_P = np.asarray(result[1]) 
+def calc_p_pi_julia(
+    n_nodes: int,
+    tau: np.ndarray,
+    A: np.ndarray,
+    L: np.ndarray,
+    P: np.ndarray,
+    Pi: np.ndarray,
+    coeff_theta: float
+) -> None:
+
+    julia_runtime = jc.newmodule('Main')
+    jc.Pkg.activate('SolveInitial') # type: ignore
+    julia_runtime.seval('using SolveInitial')
+
+    result = julia_runtime.main(A, L, tau, coeff_theta, n_nodes)
+    res_Pi = np.asarray(result[0])
+    res_P = np.asarray(result[1])
     for i in range(n_nodes):
         P[i] = res_P[i]
         Pi[i] = res_Pi[i]
