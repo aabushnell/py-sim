@@ -47,14 +47,19 @@ from sim.core import *
 ```
 
 Then, it is necessary to create a Model object with
-```
+```Python
 <model_name> = Model(<model_size>)
 ```
 Where `model_size` is either an integer variable or literal representing the number of active nodes within the model. 
 
 ### Data Storage and Access
 
-Upon creation this Model object will allocate the necessary memory to hold its data through the C++ API, these data arrays are exposed to the end Python user through the use of numpy arrays that are members of the respective Model object and can be accessed both for reference and assignment with `<model_name>.<array_name>`. The currently accessible arrays are:
+Upon creation, the Model object will allocate the necessary memory to hold its data through the C++ API, these data arrays are exposed to the end Python user through the use of numpy arrays that are members of the respective Model object and can be accessed both for reference and assignment through 
+```Python
+<model_name>.<array_name>
+```
+
+The currently accessible arrays are:
 1. `A` -- the vector of cell knowledge endowments
 2. `L` -- the vector of cell labor (population) endowments
 3. `B` -- the vector of cell inherent fertility values
