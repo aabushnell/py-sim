@@ -5,8 +5,8 @@ Note that this is an initial draft of both the final version of the code and doc
 ## Table of contents
 1. [Introduction](#introduction)
 2. [Installation](#installation)
-  1. [Requirements](#requirements)
-  2. [Walkthrough](#walkthrough)
+    1. [Requirements](#requirements)
+    2. [Walkthrough](#walkthrough)
 3. [Usage](#usage)
   - [Initialization]
   - [Data Storage and Access]
