@@ -8,15 +8,15 @@ Note that this is an initial draft of both the final version of the code and doc
     1. [Requirements](#requirements)
     2. [Walkthrough](#walkthrough)
 3. [Usage](#usage)
-  - [Initialization]
-  - [Data Storage and Access]
-  - [Data I/O]
-  - [Model Simulation]
-    - [Calculating Tau Matrix]
-    - [Calculating P and Pi vectors]
-    - [Calculating Additional Values]
-    - [Updating Core Model Parameters]
-4. [Technical Implemenation Details]
+    1. [Initialization](#initialization)
+    2. [Data Storage and Access](#datastorage)
+    3. [Data I/O](#dataio)
+    4. [Model Simulation](#modelsim)
+        - [Calculating Tau Matrix](#calctau)
+        - [Calculating P and Pi vectors](#calcppi)
+        - [Calculating Additional Values](#calcother)
+        - [Updating Core Model Parameters](#updatecore)
+4. [Technical Implementation Details](#technical)
 
 ## Introduction <a name="introduction"></a>
 
@@ -55,7 +55,7 @@ Note that this installation procedure should be identical across most Unix syste
 
 ## Usage <a name="usage"></a>
 
-### Initialization
+### Initialization <a name="initialization"></a>
 
 Within a script, the core model implementation can be imported with
 ```python
@@ -68,7 +68,7 @@ Then, it is necessary to create a `Model` object with
 ```
 Where `model_size` is either an integer variable or literal representing the number of active nodes within the model. 
 
-### Data Storage and Access
+### Data Storage and Access <a name="datastorage"></a>
 
 Upon creation, the `Model` object will allocate the necessary memory to hold its data through the C++ API, these data arrays are exposed to the end Python user through the use of numpy arrays that are members of the respective Model object and can be accessed both for reference and assignment through 
 ```Python
@@ -90,7 +90,7 @@ The currently accessible arrays are:
 Note that members 1-6 are of length `<model_size>` and 7-10 are technically of length `<model_size> * <model_size>` but in practical terms should be accessed as nested arrays, i.e. to get the direct travel cost between cells 100 and 101 call `<model_name>.t[100][101]`.
 
 
-### Data I/O
+### Data I/O <a name="dataio"></a>
 
 Once initialized, the `Model` member arrays can be accessed, copied, or modified at will the same way any standard numpy array would be. This allows for a high degree of flexibility to integrate this interface into 
 any desired codebase or processing pipeline. However some simple data i/o is provided within the `sim.io` module.
@@ -115,27 +115,27 @@ The variable `indexed` is an optional boolean stating whether the csv file is in
 **Example:**
 `read_matrix('data/t.csv', my_model.t, 1861)`
 
-### Model Simulation
+### Model Simulation <a name="modelsim"></a>
 
-#### Calculating Tau matrix
+#### Calculating Tau matrix <a name="calctau"></a>
 
 Once the relevant model parameters have been loaded, tau values can be calculated from the input t values through the class method `<model_name>.calc_tau(coeff_theta: float, n_iterations: int, debug_level: int)`. A theta coefficient is required as well as the desired number of iterations of the tau approximation algorithm (for more details see the technical implementation section) and the debug level which should be an integer between 0 and 3 (default 0) representing the desired detail of debug output in the terminal.
 
 
-#### Calculating P and Pi vectors
+#### Calculating P and Pi vectors <a name="calcppi"></a>
 
 As the calculation of the optimal P and Pi vectors is quite sensitive a thorough initial solution should be found using a powerful non-linear optimization algorithm. This is currently implemented in julia and called from the python interface with the `<model_name>.init_p_pi(coeff_theta: str)` class method. As this may take a significant amount of time to run if multiple simulations of the model with the same starting conditions are expected to be ran it is recommended to save and load the results of this initial P/Pi calculation to speed up future runs of the model.
 
 After the initial calculation, a much faster albeit less accurate iterative algorithm can be called to update the P and Pi vectors as the model evolves through simulation over time. As long as the inter-period changes of in the models parameters is relatively modest this algorithm should produce acceptably accurate approximations of the evolving optimal solution. The iterative algorithm can be called through the `<model_name>.calc_p_pi(coeff_theta: str, diff_limit: float, debug_level: int, relative_diff: bool = False)` class method. The diff_limit variable represents the desired level of iterative 'stability' for the calculation, i.e. the algorithm will iteratively solve for values of P and Pi until the largest difference in resulting values between iterations is smaller than this number. The relative_diff boolean flag (default False) indicates whether this diff_limit should be applied to the absolute or relative difference.
 
-#### Calculating other matrices/vectors
+#### Calculating Additional Values <a name="calcother"></a>
 
 Other calculation of model variables can be accessed as class methods including (along with their relevant parameters):
 - `calc_Y(coeff_theta, debug_level)`
 - `calc_X(coeff_theta, debug_level)`
 - `calc_Xi(coeff_theta, debug_level)`
 
-#### Updating Model Parameters
+#### Updating Core Model Parameters <a name="updatecore"></a>
 
 - `update_A(coeff_eta, coeff_beta, coeff_sigma, debug_level, normalized, log_A, translate_A`
   - **TODO** add explanation for normalized, log_A, and translate_A boolean flags
@@ -143,6 +143,6 @@ Other calculation of model variables can be accessed as class methods including 
 - `update_t(coeff_chi, debug_level)`
   - **TODO** finish proper implementation of update_t along with cached Xi values from previous periods
 
-## Technical implementation details
+## Technical implementation details <a name="technical"></a>
                                                                                                           a
 **TODO**                                                                                                                                                                                                                                                                                                                                                                                                                                  o
