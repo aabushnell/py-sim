@@ -41,22 +41,16 @@ Note that this installation procedure should be identical across most Unix syste
 
 ### Initialization
 
-Within a script, to import the core model implementation it is recommended to run
+Within a script, the core model implementation can be imported with
 ```python
 from sim.core import *
 ```
-as well as
-```python
-from sim.io import *
-```
-to import some handy input/output helper functions.
 
-First, create a Model object with 
+Then, it is necessary to create a Model object with
 ```
 <model_name> = Model(<model_size>)
 ```
-
-where model_size is either an integer variable or literal representing the number of active nodes within the model. It is very important that this number is consistent with the number of nodes represented in the input data or the model will not properly run.
+Where `model_size` is either an integer variable or literal representing the number of active nodes within the model. 
 
 ### Data Storage and Access
 
@@ -78,6 +72,11 @@ Once initialized, the model member arrays can be accessed, copied, or modified a
 any desired codebase or processing pipeline. However some simple data i/o is provided within the `sim.io` module.
 
 ### Data I/O
+
+```python
+from sim.io import *
+```
+to import some handy input/output helper functions.
 
 Data can be loaded from a csv file with the function `read_array(filepath: str, array: np.ndarray, array_len: int, indexed: bool = False)`. Provide the absolute or relative filepath as a string, along with the desired model array to be loaded, the length of the array (which should be the same as the `<mode_size>` the model was initialized with), and an optional boolean stating whether the csv file is indexed or not. By default the function will assume an unindexed csv file with a single floating point number on each line. If the csv is indexed (i.e. in the form `1,5.2` for a single line) then pass `True` to the indexed variable in the function call.
 
