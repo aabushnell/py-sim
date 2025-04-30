@@ -19,15 +19,13 @@ This documentation will cover, on one end, the high level interface to access th
 - gcc compiler
 - GNU Make
 - For full GPU accelerated features:
+  - A CUDA compatible GPU 
   - A CUDA installation including:
     - cublas v2
     - cudart 
-  - A CUDA compatible GPU 
   - nvcc compiler
 
 Note that this installation procedure should be identical across most Unix systems (Linux/MacOS) however in order to properly install and run the package on Windows several changes would need to be made, in particular to the compilation and loading of the C++ shared libraries.
-
-**NOTE TODO**
 
 ### Walkthrough 
 
@@ -44,20 +42,19 @@ Note that this installation procedure should be identical across most Unix syste
 ### Initialization
 
 Within a script, to import the core model implementation it is recommended to run
-
 ```python
 from sim.core import *
 ```
-
 as well as
-
 ```python
 from sim.io import *
 ```
-
 to import some handy input/output helper functions.
 
-First, create a Model object with `<model_name> = Model(<model_size>)` 
+First, create a Model object with 
+```
+<model_name> = Model(<model_size>)
+```
 
 where model_size is either an integer variable or literal representing the number of active nodes within the model. It is very important that this number is consistent with the number of nodes represented in the input data or the model will not properly run.
 
