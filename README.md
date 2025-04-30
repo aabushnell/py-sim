@@ -119,7 +119,16 @@ The variable `indexed` is an optional boolean stating whether the csv file is in
 
 #### Calculating Tau matrix <a name="calctau"></a>
 
-Once the relevant model parameters have been loaded, tau values can be calculated from the input t values through the class method `<model_name>.calc_tau(coeff_theta: float, n_iterations: int, debug_level: int)`. A theta coefficient is required as well as the desired number of iterations of the tau approximation algorithm (for more details see the technical implementation section) and the debug level which should be an integer between 0 and 3 (default 0) representing the desired detail of debug output in the terminal.
+Once the relevant model parameters have been loaded, tau values can be calculated from the input t values through the class method 
+```Python
+<model_name>.calc_tau(coeff_theta: float, n_iterations: int, debug_level: int) 
+```
+A theta coefficient is required as well as the desired number of iterations of the tau approximation algorithm (for more details see the technical implementation section) and the debug level which should be an integer between 0 and 3 (default 0) representing the desired detail of debug output in the terminal.
+
+Example:
+```Python
+model.calc_tau(3.0, 100, 1) 
+```
 
 
 #### Calculating P and Pi vectors <a name="calcppi"></a>
