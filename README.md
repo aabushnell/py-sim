@@ -46,7 +46,7 @@ Within a script, the core model implementation can be imported with
 from sim.core import *
 ```
 
-Then, it is necessary to create a Model object with
+Then, it is necessary to create a `Model` object with
 ```Python
 <model_name> = Model(<model_size>)
 ```
@@ -54,7 +54,7 @@ Where `model_size` is either an integer variable or literal representing the num
 
 ### Data Storage and Access
 
-Upon creation, the Model object will allocate the necessary memory to hold its data through the C++ API, these data arrays are exposed to the end Python user through the use of numpy arrays that are members of the respective Model object and can be accessed both for reference and assignment through 
+Upon creation, the `Model` object will allocate the necessary memory to hold its data through the C++ API, these data arrays are exposed to the end Python user through the use of numpy arrays that are members of the respective Model object and can be accessed both for reference and assignment through 
 ```Python
 <model_name>.<array_name>
 ```
@@ -73,20 +73,30 @@ The currently accessible arrays are:
 
 Note that members 1-6 are of length `<model_size>` and 7-10 are technically of length `<model_size> * <model_size>` but in practical terms should be accessed as nested arrays (i.e. to get the direct travel cost between cells 100 and 101 call `<model_name>.t[100][101]`).
 
-Once initialized, the model member arrays can be accessed, copied, or modified at will the same way any standard numpy array would be. This allows for a high degree of flexibility to integrate this interface into 
-any desired codebase or processing pipeline. However some simple data i/o is provided within the `sim.io` module.
 
 ### Data I/O
 
+Once initialized, the `Model` member arrays can be accessed, copied, or modified at will the same way any standard numpy array would be. This allows for a high degree of flexibility to integrate this interface into 
+any desired codebase or processing pipeline. However some simple data i/o is provided within the `sim.io` module.
 ```python
 from sim.io import *
 ```
-to import some handy input/output helper functions.
 
-Data can be loaded from a csv file with the function `read_array(filepath: str, array: np.ndarray, array_len: int, indexed: bool = False)`. Provide the absolute or relative filepath as a string, along with the desired model array to be loaded, the length of the array (which should be the same as the `<mode_size>` the model was initialized with), and an optional boolean stating whether the csv file is indexed or not. By default the function will assume an unindexed csv file with a single floating point number on each line. If the csv is indexed (i.e. in the form `1,5.2` for a single line) then pass `True` to the indexed variable in the function call.
+- Data can be loaded from a csv file with the function `read_array(filepath: str, array: numpy.ndarray, array_len: int, indexed: bool = False)`. 
+The variable `indexed` is an optional boolean stating whether the csv file is indexed or not. By default the function will assume an unindexed csv file with a single floating point number on each line. If the csv is indexed (i.e. in the form `1,5.2` for a single line) then pass `True` to the indexed variable in the function call.
 
 **Example:**
 `read_array('data/A.csv', my_model.A, 1861, True)`
+
+- Data can be written to a csv file with the function `write_array(filepath: str, array: numpy.ndarray, array_len: int)`.
+
+**Example:**
+`write_array('data/P.csv', my_model.P, 1861)`
+
+- Similarly, the `read_matrix(filepath: str, matrix: numpy.ndarray, array_len: int)` and `write_matrix(filepath: str, matrix: numpy.ndarray, array_len: int)` functions can be used to read or write matrices to and from a csv file of the form `<i>,<j>,<value>`
+
+**Example:**
+`read_matrix('data/t.csv', my_model.t, 1861)`
 
 ### Calculating Tau matrix
 
