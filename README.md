@@ -133,9 +133,17 @@ model.calc_tau(3.0, 100, 1)
 
 #### Calculating P and Pi vectors <a name="calcppi"></a>
 
-As the calculation of the optimal P and Pi vectors is quite sensitive a thorough initial solution should be found using a powerful non-linear optimization algorithm. This is currently implemented in julia and called from the python interface with the `<model_name>.init_p_pi(coeff_theta: str)` class method. As this may take a significant amount of time to run if multiple simulations of the model with the same starting conditions are expected to be ran it is recommended to save and load the results of this initial P/Pi calculation to speed up future runs of the model.
+As the calculation of the optimal P and Pi vectors is quite sensitive a thorough initial solution should be found using a powerful non-linear optimization algorithm. This is currently implemented in julia and called from the python interface through 
+```Python
+<model_name>.init_p_pi(coeff_theta: str)
+```
+As this may take a significant amount of time to run, if multiple simulations of the model with the same starting conditions are expected it is recommended to save and load the results of this initial P/Pi calculation to speed up future runs of the model.
 
-After the initial calculation, a much faster albeit less accurate iterative algorithm can be called to update the P and Pi vectors as the model evolves through simulation over time. As long as the inter-period changes of in the models parameters is relatively modest this algorithm should produce acceptably accurate approximations of the evolving optimal solution. The iterative algorithm can be called through the `<model_name>.calc_p_pi(coeff_theta: str, diff_limit: float, debug_level: int, relative_diff: bool = False)` class method. The diff_limit variable represents the desired level of iterative 'stability' for the calculation, i.e. the algorithm will iteratively solve for values of P and Pi until the largest difference in resulting values between iterations is smaller than this number. The relative_diff boolean flag (default False) indicates whether this diff_limit should be applied to the absolute or relative difference.
+After the initial calculation, a much faster albeit less accurate iterative algorithm can be called to update the P and Pi vectors with 
+```Python
+<model_name>.calc_p_pi(coeff_theta: str, diff_limit: float, debug_level: int, relative_diff: bool = False) 
+```
+The diff_limit variable represents the desired level of iterative 'stability' for the calculation, i.e. the algorithm will iteratively solve for values of P and Pi until the largest difference in resulting values between iterations is smaller than this number. The relative_diff boolean flag (default False) indicates whether this diff_limit should be applied to the absolute or relative difference.
 
 #### Calculating Additional Values <a name="calcother"></a>
 
