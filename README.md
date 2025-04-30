@@ -143,7 +143,7 @@ After the initial calculation, a much faster albeit less accurate iterative algo
 ```Python
 <model_name>.calc_p_pi(coeff_theta: str, diff_limit: float, debug_level: int, relative_diff: bool = False) 
 ```
-The diff_limit variable represents the desired level of iterative 'stability' for the calculation, i.e. the algorithm will iteratively solve for values of P and Pi until the largest difference in resulting values between iterations is smaller than this number. The relative_diff boolean flag (default False) indicates whether this diff_limit should be applied to the absolute or relative difference.
+The `diff_limit` variable represents the desired level of iterative 'stability' for the calculation, i.e. the algorithm will iteratively solve for values of P and Pi until the largest difference in resulting values between iterations is smaller than this number. The `relative_diff` boolean flag (default `False`) indicates whether this `diff_limit` should be applied to the absolute or relative difference.
 
 #### Calculating Additional Values <a name="calcother"></a>
 
