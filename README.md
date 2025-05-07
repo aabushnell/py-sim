@@ -154,8 +154,11 @@ Other calculation of model variables can be accessed as class methods including 
 
 #### Updating Core Model Parameters <a name="updatecore"></a>
 
+Additional functions are provided to allow for updating the core parameters of the model. They can be accessed as class methods:
 - `update_A(coeff_eta, coeff_beta, coeff_sigma, debug_level, normalized, log_A, translate_A`
-  - **TODO** add explanation for normalized, log_A, and translate_A boolean flags
+  - The `normalized` flag is an optional boolean value (default False). When True it sets all Xi values for adjacent nodes to be a value between 0 and 1 scaled by the sum of all Xi values.
+  - The `log_A` flag is an optional boolean value (default True). When True it scales the increase in A to log levels (normalized by the A value of the source node). When False it simply grows A additively in linear terms based on the result of the growth equation. 
+  - The `translate_A` flag is an optional boolean value (default True). When True it scales the effective A values used in calculating their influence on neighbors so that the minimum value is always zero. This means that nodes with very low (for technical reasons nodes must have nonzero A) have no influence on generating growth in A.
 - `update_L(coeff_a, coeff_b, coeff_f, coeff_d, coeff_xi, coeff_lambda, debug_level)`
 - `update_t(coeff_chi, debug_level)`
   - **TODO** finish proper implementation of update_t along with cached Xi values from previous periods
