@@ -24,13 +24,25 @@
 !SolveInitial/*.toml
 !SolveInitial/src/*.jl
 
-## Binaries/Libraries
+## Placeholder Directories
+
+!sim/bin/.placeholder
+!sim/lib/.placeholder
+
+!data/.placeholder
 
 ## Metadata
 
 !compile_flags.txt
 !juliapkg.json
 !pyrightconfig.json
+
+!Makefile
+
+## Test Scripts
+
+!test_julia.jl
+!test_sims.py
 
 ## Documentation
 
