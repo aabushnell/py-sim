@@ -9,15 +9,29 @@
 
 ## Project Directories
 
-!src/*.py
-!src/sim/*.py
-!src/cpp/*.cpp
-!src/cpp/*.h
-!src/cpp/*.cu
+# Python
+
+!sim/*.py
+
+# C++
+
+!cpp/*.cpp
+!cpp/*.h
+!cpp/*.cu
+
+# Julia 
+
+!SolveInitial/*.toml
+!SolveInitial/src/*.jl
 
 ## Binaries/Libraries
 
-!bin/*.o
-!lib/*.so
+## Metadata
+
+!compile_flags.txt
+!juliapkg.json
+!pyrightconfig.json
+
+## Documentation
 
 !README.md
