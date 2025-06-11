@@ -1,8 +1,9 @@
 ### GITIGNORE ###
 # White List
 
-# Ignore all be default
+# Ignore all by default
 *
+!*/
 
 !.gitignore
 
@@ -19,3 +20,4 @@
 !bin/*.o
 !lib/*.so
 
+!README.md
