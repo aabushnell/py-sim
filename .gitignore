@@ -1,0 +1,21 @@
+### GITIGNORE ###
+# White List
+
+# Ignore all be default
+*
+
+!.gitignore
+
+## Project Directories
+
+!src/*.py
+!src/sim/*.py
+!src/cpp/*.cpp
+!src/cpp/*.h
+!src/cpp/*.cu
+
+## Binaries/Libraries
+
+!bin/*.o
+!lib/*.so
+
